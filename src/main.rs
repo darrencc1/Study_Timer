@@ -162,7 +162,41 @@ fn strings()
     company.push_str(" are FUN!");
     println!("{}", company);//output Tutorials are FUN!
 
-    //
+    //len() used in other functions company.len()
+
+    //split_whitespace(), splits strings into seperate strings, returns an iterator 
+    let message = "This is the message I will have splite and tokenized".to_string();
+    let mut i = 1;
+    for token in message.split_whitespace()
+    {
+        println!("token {} {}",i,token);
+        i+=1;
+    }    
+
+    //split() **result CANNOT be stored for later use.** HOWEVER, result can be stored as a VECTOR.
+
+    let fullname = "Michael James Taylor";
+    for token in fullname.split(" ")
+    {
+        println!("toekn is {}", token);
+    }
+    //store in vector
+    let tokens:Vec<&str>= fullname.split(" ").collect();
+    println!("firstName is {}", tokens[0]);
+    println!("middleName is {}", tokens[1]);
+    println!("lastName is {}", tokens[2]);
+
+    //chars() is used for individual characters in a string. 
+    let n1 = "Grabbing Characters".to_string();
+    for n in n1.chars()
+    {
+        println!("{}", n);
+    }
+
+    //append / concatenate / interpolation, The result of this is a new **STRING OBJECT**
+    let n2 = " and concatonating two srings".to_string();
+    let n3 = n1 + &n2;
+    println!("{}", n3);
 
 
 
