@@ -2,7 +2,7 @@
 
 // use notify_rust::Notification;
 // use std::thread;
-// use std::time::Duration;
+use std::{thread, time::Duration};
 //can be used to trigger an alarm at a specific time, works with times and dates. 
 // use chrono::{Local, Timelike};
 //This can play a sound/send notification when alarm triggers. 
@@ -12,19 +12,56 @@
 use std::io;
 
 fn main() {
-    // Collect user inputs using the helper functions
-    let study_time = study_time();
+    let mut study_time = study_time();
     let short_break_length;
     let long_break_length;
-
     (short_break_length, long_break_length) = break_length();
-    let no_sessions = no_study_sessions();
-
-    // Display the summary message
+    let mut no_sessions = no_study_sessions();
     println!(
         "You will be studying for {:.2} minutes with a short break of {:.2} minutes. Every {} study sessions, you will take a long break for {:.2} minutes!",
         study_time, short_break_length, no_sessions, long_break_length
     );
+    
+    let mut seconds:i32 = 5;
+    println!("Your timer will start in {} seconds", seconds);
+    while seconds > 0
+    {
+        println!("{}", seconds);
+        thread::sleep(Duration::from_secs(1));//this is what actual waits for 1 second.
+        seconds -= 1;
+    }
+    //timer
+    if no_sessions != 0
+    {   
+        let mut clock_time = study_time * 60.0;
+        let mut break_time = short_break_length * 60.0;
+        println!("{} minutes remaining", study_time);
+        while clock_time != 0.0
+        {
+            thread::sleep(Duration::from_secs(1));
+            clock_time -= 1.0;
+            
+            if clock_time % 60.0 == 0.0
+            { 
+                println!("You have {} minutes left", clock_time / 60.0);
+            }
+            if clock_time == 0.0
+            {
+                no_sessions -= 1;
+            }
+        }
+        println!("Congratulations it is BREAK TIME!");
+        while break_time != 0.0
+        {
+            thread::sleep(Duration::from_secs(1));
+            break_time -= 1.0;
+            if break_time % 60.0 == 0.0
+            {
+                println!("You have {} minutes left on your break", break_time / 60.0);
+            }
+        }
+    }
+    
 }
 
 fn study_time() -> f32 {
