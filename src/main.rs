@@ -1,14 +1,16 @@
 //Must add dependencies inside the Cargo.toml
 
-// use notify_rust::Notification;
+
+use rodio::{Decoder, OutputStream, Source};
 // use std::thread;
-use std::{thread, time::Duration};
+use std::{thread, time::Duration, fs::File, io::BufReader};
 //can be used to trigger an alarm at a specific time, works with times and dates. 
 // use chrono::{Local, Timelike};
 //This can play a sound/send notification when alarm triggers. 
 // use rodio::{Decoder, OutputStream}
 //notift-rust can be used for desktop applications. 
 //std::io allows input from user. 
+use notify_rust::Notification;
 use std::io;
 
 fn main() {
@@ -48,6 +50,8 @@ fn main() {
             if clock_time == 0.0
             {
                 no_sessions -= 1;
+                alarm_sound("./alarm_sound.mp3");
+
             }
         }
         println!("Congratulations it is BREAK TIME!");
@@ -126,5 +130,15 @@ fn no_study_sessions() -> i32 {
             Err(_) => println!("Invalid response! Please input a valid number."),
         }
     }
+}
+
+fn alarm_sound(file_path: &str)
+{
+    let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+    let file = BufReader::new(File::open(file_path).unwrap());
+    let source = Decoder::new(file).unwrap();
+    stream_handle.play_raw(source.convert_samples()).unwrap();
+
+    thread::sleep(Duration::from_secs(5)); // Allow sound to play for 5 seconds
 }
 
