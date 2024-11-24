@@ -4,7 +4,7 @@ This is a standalone program, which is why I am using another binary, this is si
 cargo run
 mkdir src/bin ... multiple binaries are allowed, this creates a new binary in the src folder
 mv src/study_notes.rs src/bin/study_notes.rs ... This moves the file to where you want by the command prompt, you can manually move it as well.
-cargo run --bin study_notes ... this runs the specific binary folder study_notes without main.rs being involved. 
+cargo run --bin study_notes ... this runs the specific binary folder study_notes 
  
  ***NOTE*** you can directly run a file without making another binary:
  rustc src/study_notes.rs (File is not in bin for this), This compiles the file directly.
@@ -27,6 +27,7 @@ fn main()
     character();
     constants();
     strings();
+    bitwise_op();
 }
 
 fn types()
@@ -210,8 +211,24 @@ fn strings()
     //append / concatenate / interpolation, The result of this is a new **STRING OBJECT**
     let n2 = " and concatonating two srings".to_string();
     let n3 = n1 + &n2;
-    println!("{}", n3);
+    println!("{}\n", n3);
 
 
+
+
+}
+//logical operators
+// && == and || == or ! == not
+/*bit wise operators
+*/
+fn bitwise_op()
+{
+    let A = 4;
+    let B = 5;
+    println!("A = {} B = {}", A, B);
+    // will reverse all the bits in the operand
+    println!("reverse B (!B)= {}", !B);
+    //This moves bits to the side specified by the 2nd operand.
+    println!("Move A bits left by 2 = {} Move A bits right 2 = {}", A << 2, A >> 2);
 
 }

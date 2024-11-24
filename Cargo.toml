@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+chrono = "0.4"
+rodio = "0.16"
+notify-rust = "4.6.0"
