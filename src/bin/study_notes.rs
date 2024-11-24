@@ -28,6 +28,15 @@ fn main()
     constants();
     strings();
     bitwise_op();
+    match_statement();
+    loops();
+    println!("The value of pi is {}\n", get_pi());
+    let no:i32 = 5;
+    mutate_no(no);
+    println!("The value of no is:{}", no);
+    let mut no1:i32 = 5;
+    mutate_no_ref(&mut no1);
+    println!("The value of no1 is {}", no1);
 }
 
 fn types()
@@ -212,11 +221,8 @@ fn strings()
     let n2 = " and concatonating two srings".to_string();
     let n3 = n1 + &n2;
     println!("{}\n", n3);
-
-
-
-
 }
+
 //logical operators
 // && == and || == or ! == not
 /*bit wise operators
@@ -229,6 +235,92 @@ fn bitwise_op()
     // will reverse all the bits in the operand
     println!("reverse B (!B)= {}", !B);
     //This moves bits to the side specified by the 2nd operand.
-    println!("Move A bits left by 2 = {} Move A bits right 2 = {}", A << 2, A >> 2);
+    println!("Move A bits left by 2 = {} Move A bits right 2 = {}\n", A << 2, A >> 2);
 
+}
+
+/*Match Statement. (Like a switch statement in C language), 
+ex. is a current value in matching from a list of values. 
+
+*/
+
+fn match_statement()
+{
+    let state_code = "MH";
+    let state = match state_code {
+      "MH" => {println!("Found match for MH"); "Maharashtra"},
+      "KL" => "Kerala",
+      "KA" => "Karnadaka",
+      "GA" => "Goa",
+      _ => "Unknown"
+    };
+    println!("State name is {}",state);
+}
+
+fn loops()
+{
+    for x in 1..10
+    {
+        if x == 5{
+            continue;
+        }
+        println!("x is {}", x)
+    }
+
+    let mut x1 = 0;
+    
+    //while loop 
+    while x1 < 10
+    {   
+        x1 += 1;
+        println!("Inside the loop x value is {}", x1);
+    }
+    println!("outside loop x value is {}", x1);
+    //loop
+    let mut x = 0;
+    loop {
+        {
+            x += 2;
+            println!("x={}",x);
+            
+            if x >= 17
+            {
+                break;
+            }
+        }
+    }
+    //Continue statement example
+    let mut count = 0;
+    for num in 0..27
+    {
+        if num % 2 == 0
+        {
+            continue;
+        }
+        count += 1
+    }
+    println!("The count of odd values between 0 and 27 is {}", count);
+}
+
+//return type
+fn get_pi()->f64
+{
+    22.0/7.0
+}
+
+/* **PASS BY VALUE**
+When a method is invoked, new storage location is created for EACH parameter
+value from actual parameter is copied into it.  
+*/
+fn mutate_no(mut param_no: i32)
+{
+    param_no = param_no * 0;
+    println!("param_no value is {}", param_no);
+}
+/*pass by reference
+new storage location NOT created for these parameters. SAME memory location as actual parameter supplied to method,
+*/
+fn mutate_no_ref(param_no:&mut i32)
+{
+    *param_no = 0;
 }
