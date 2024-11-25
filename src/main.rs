@@ -1,7 +1,7 @@
 //Must add dependencies inside the Cargo.toml
 
 
-use rodio::{Decoder, OutputStream, Source, Sink};
+use rodio::{Decoder, OutputStream,};
 // use std::thread;
 use std::{thread, time::Duration, fs::File, io::BufReader};
 //can be used to trigger an alarm at a specific time, works with times and dates. 
@@ -14,8 +14,7 @@ use std::{thread, time::Duration, fs::File, io::BufReader};
 use std::io;
 
 fn main() 
-{
-    
+{  
     let study_time = study_time();
     let short_break_length;
     let long_break_length;
@@ -40,9 +39,7 @@ fn main()
         {
             long_break_alarm(long_break_length);
         }
-     
     }
-    
 }
 fn study_time() -> f32 {
     loop {
@@ -107,6 +104,7 @@ fn no_study_sessions() -> i32 {
         }
     }
 }
+
 fn long_break_times() -> i32
 {
     loop
@@ -210,6 +208,5 @@ fn long_break_alarm(break_length:f32)
         {
             alarm_sound("./assets/alarm_sound.mps")
         }
-
     }
 }

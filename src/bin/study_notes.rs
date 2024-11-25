@@ -229,13 +229,13 @@ fn strings()
 */
 fn bitwise_op()
 {
-    let A = 4;
-    let B = 5;
-    println!("A = {} B = {}", A, B);
+    let a = 4;
+    let b = 5;
+    println!("A = {} B = {}", a, b);
     // will reverse all the bits in the operand
-    println!("reverse B (!B)= {}", !B);
+    println!("reverse B (!B)= {}", !a);
     //This moves bits to the side specified by the 2nd operand.
-    println!("Move A bits left by 2 = {} Move A bits right 2 = {}\n", A << 2, A >> 2);
+    println!("Move A bits left by 2 = {} Move A bits right 2 = {}\n", a << 2, a >> 2);
 
 }
 
