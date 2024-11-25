@@ -15,25 +15,27 @@ use std::io;
 
 fn main() 
 {
+    
     let study_time = study_time();
     let short_break_length;
     let long_break_length;
     (short_break_length, long_break_length) = break_length();
-    let no_sessions = no_study_sessions();
+    let mut no_sessions = no_study_sessions() as i32;
     println!(
         "You will be studying for {:.2} minutes with a short break of {:.2} minutes. Every {} study sessions, you will take a long break for {:.2} minutes!",
         study_time, short_break_length, no_sessions, long_break_length
     );
-    alarm();
-        // while break_time != 0.0
-        // {
-        //     thread::sleep(Duration::from_secs(1));
-        //     break_time -= 1.0;
-        //     if break_time % 60.0 == 0.0
-        //     {
-        //         println!("You have {} minutes left on your break", break_time / 60.0);
-        //     }
-        // }
+    while no_sessions > 0
+    {
+        study_alarm();
+        no_sessions -= 1;
+        if no_sessions == 0
+        {
+            break_alarm();
+        }
+     
+    }
+    
 }
 fn study_time() -> f32 {
     loop {
@@ -117,13 +119,12 @@ fn alarm_sound(file_path: &str) {
     sink.sleep_until_end();
 }
 
-fn alarm()
+fn study_alarm()
 {
     let study_time = study_time();
-    let short_break; 
-    let long_break;
-    let mut no_sessions = no_study_sessions() as i32;
-    (short_break, long_break) = break_length();
+    
+    
+    
     let mut seconds:i32 = 5;
     println!("Your timer will start in {} seconds", seconds);
     while seconds > 0
@@ -133,10 +134,7 @@ fn alarm()
         seconds -= 1;
     }
     //timer
-    while no_sessions != 0
-    {   
-        let mut clock_time = (study_time * 60.0) as i32;
-        let mut break_time = (short_break * 60.0) as i32;
+        let mut clock_time = (study_time * 60.0) as i32;  
         println!("{} minutes remaining", study_time);
         while clock_time != 0
         {
@@ -149,12 +147,20 @@ fn alarm()
             }
             if clock_time == 0
             {
-                no_sessions -= 1;
                 alarm_sound("./assets/alarm_sound.mp3");
-
             }
         }
-        println!("Congratulations it is BREAK TIME!");
+        
+    }
+
+    
+fn break_alarm()
+{
+    let short_break; 
+    let long_break;
+    (short_break, long_break) = break_length();
+    let mut break_time = (short_break * 60.0) as i32;
+    println!("Congratulations it is BREAK TIME!");
         while break_time != 0
         {
             thread::sleep(Duration::from_secs(1));
@@ -165,9 +171,18 @@ fn alarm()
             }
             if break_time == 0
             {
-                alarm_sound("./alarm_sound.mp3");
+                alarm_sound("./assets/alarm_sound.mp3");
             }
         }
+}
+fn long_break_alarm()
+{
+    let short_break;
+    let long_break;
+    (short_break, long_break) = break_length();
+    let mut long_break_time = (long_break * 60.0) as i32;
+    if long_break_time != 0
+    {
+        thread::sleep(Duration::from_secs(1));
     }
 }
-    
