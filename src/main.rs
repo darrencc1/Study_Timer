@@ -19,11 +19,13 @@ fn main()
     let study_time = study_time();
     let short_break_length;
     let long_break_length;
+    // let no_ses_long: i32;
     (short_break_length, long_break_length) = break_length();
     let mut no_sessions = no_study_sessions() as i32;
+    let no_ses_long =long_break_times();
     println!(
-        "You will be studying for {:.2} minutes with a short break of {:.2} minutes. Every {} study sessions, you will take a long break for {:.2} minutes!",
-        study_time, short_break_length, no_sessions, long_break_length
+        "You will be studying for {:.2} minutes with a short break of {:.2} minutes. Every {} study sessions, you will take a long break for {:.2} minutes every {} study sessions!",
+        study_time, short_break_length, no_sessions, long_break_length, no_ses_long
     );
     while no_sessions > 0
     {
@@ -33,6 +35,10 @@ fn main()
         if no_sessions > 0
         {
             break_alarm(short_break_length);
+        }
+        if no_sessions % no_ses_long == 0
+        {
+            long_break_alarm(long_break_length);
         }
      
     }
@@ -98,6 +104,26 @@ fn no_study_sessions() -> i32 {
                 return no; // Return the parsed value
             }
             Err(_) => println!("Invalid response! Please input a valid number."),
+        }
+    }
+}
+fn long_break_times() -> i32
+{
+    loop
+    {
+        let mut no_times = String::new();
+        println!("How many study sessions would you like to do before your long break?");
+        io::stdin()
+            .read_line(&mut no_times)
+            .expect("Could not read input.");
+        let no_times = no_times.trim();
+
+        match no_times.parse::<i32>()
+        {
+            Ok(nom) => {
+                return nom;
+            }
+            Err(_) => println!("Invalid response, please input a number"),
         }
     }
 }
@@ -169,14 +195,21 @@ fn break_alarm(break_length:f32)
             }
         }
 }
-fn long_break_alarm()
+fn long_break_alarm(break_length:f32)
 {
-    let short_break;
-    let long_break;
-    (short_break, long_break) = break_length();
-    let mut long_break_time = (long_break * 60.0) as i32;
+    let mut long_break_time = (break_length * 60.0) as i32;
     if long_break_time != 0
     {
         thread::sleep(Duration::from_secs(1));
+        long_break_time -= 1;
+        if long_break_time % 60 == 0
+        {
+            println!("YOu have {} minutes left on your long break!", long_break_time)
+        }
+        if long_break_time == 0
+        {
+            alarm_sound("./assets/alarm_sound.mps")
+        }
+
     }
 }
