@@ -27,11 +27,12 @@ fn main()
     );
     while no_sessions > 0
     {
-        study_alarm();
+        println!("You will be studying for {} sessions!", no_sessions);
+        study_alarm(study_time);
         no_sessions -= 1;
-        if no_sessions == 0
+        if no_sessions > 0
         {
-            break_alarm();
+            break_alarm(short_break_length);
         }
      
     }
@@ -119,14 +120,10 @@ fn alarm_sound(file_path: &str) {
     sink.sleep_until_end();
 }
 
-fn study_alarm()
+fn study_alarm(study_time: f32)
 {
-    let study_time = study_time();
-    
-    
-    
     let mut seconds:i32 = 5;
-    println!("Your timer will start in {} seconds", seconds);
+    println!("Your stuudy timer will start in {} seconds", seconds);
     while seconds > 0
     {
         println!("{}", seconds);
@@ -154,12 +151,9 @@ fn study_alarm()
     }
 
     
-fn break_alarm()
+fn break_alarm(break_length:f32)
 {
-    let short_break; 
-    let long_break;
-    (short_break, long_break) = break_length();
-    let mut break_time = (short_break * 60.0) as i32;
+    let mut break_time = (break_length * 60.0) as i32;
     println!("Congratulations it is BREAK TIME!");
         while break_time != 0
         {
