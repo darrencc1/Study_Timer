@@ -1,3 +1,5 @@
+
+
 /*
 This is a standalone program, which is why I am using another binary, this is simply notes and practice for the actual project and learning rust. 
 
@@ -15,6 +17,9 @@ cargo run --bin study_notes ... this runs the specific binary folder study_notes
 
 /*For more information on specifics, refer to functions in main to learn more about them.
  */
+
+mod more_notes;
+
 fn main()
 {
     println!("hello world, This is a me learning rust!");
@@ -37,6 +42,8 @@ fn main()
     let mut no1:i32 = 5;
     mutate_no_ref(&mut no1);
     println!("The value of no1 is {}", no1);
+
+    more_notes::main();
 }
 
 fn types()
