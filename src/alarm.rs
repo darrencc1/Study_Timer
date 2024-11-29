@@ -1,15 +1,23 @@
 use rodio::{Decoder, OutputStream};
 use std::{fs::File, io::BufReader, thread, time::Duration};
 
-pub fn study_alarm(study_time: f32) {
-    let mut seconds: i32 = 5;
+pub fn study_alarm(study_time: f32)
+{
+    countdown(5);
+    timer(study_time)
+}
+fn countdown(seconds: i32) 
+{
+    let mut seconds: i32 = seconds;
     println!("Your stuudy timer will start in {} seconds", seconds);
     while seconds > 0 {
         println!("{}", seconds);
         thread::sleep(Duration::from_secs(1)); //this is what actual waits for 1 second.
         seconds -= 1;
     }
-    //timer
+}
+fn timer(study_time: f32)
+{
     let mut clock_time = (study_time * 60.0) as i32;
     println!("{} minutes remaining", study_time);
     while clock_time != 0 {
@@ -49,7 +57,7 @@ pub fn long_break_alarm(break_length: f32) {
             println!("YOu have {} minutes left on your long break!", break_length)
         }
         if long_break_time == 0 {
-            alarm_sound("./assets/alarm_sound.mps")
+            alarm_sound("./assets/alarm_sound.mp3")
         }
     }
 }
