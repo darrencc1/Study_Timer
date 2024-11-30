@@ -1,11 +1,13 @@
 use rodio::{Decoder, OutputStream};
 use std::{fs::File, io::BufReader, thread, time::Duration};
+use notify_rust::Notification;
 
 pub fn study_alarm(study_time: f32)
 {
     countdown(5);
     timer(study_time)
 }
+
 fn countdown(seconds: i32) 
 {
     let mut seconds: i32 = seconds;
@@ -16,6 +18,7 @@ fn countdown(seconds: i32)
         seconds -= 1;
     }
 }
+
 fn timer(study_time: f32)
 {
     let mut clock_time = (study_time * 60.0) as i32;
@@ -40,7 +43,7 @@ pub fn break_alarm(break_length: f32) {
         thread::sleep(Duration::from_secs(1));
         break_time -= 1;
         if break_time % 60 == 0 {
-            println!("You have {} minutes left on your break!", break_length);
+            println!("You have {} minutes left on your break!", break_time / 60);
         }
         if break_time == 0 {
             alarm_sound("./assets/alarm_sound.mp3");
@@ -50,17 +53,20 @@ pub fn break_alarm(break_length: f32) {
 
 pub fn long_break_alarm(break_length: f32) {
     let mut long_break_time = (break_length * 60.0) as i32;
-    if long_break_time != 0 {
+    println!("Long break of {} starts now!", break_length);
+    while long_break_time != 0 {
         thread::sleep(Duration::from_secs(1));
         long_break_time -= 1;
+
         if long_break_time % 60 == 0 {
-            println!("YOu have {} minutes left on your long break!", break_length)
+            println!("You have {} minutes left on your long break!", long_break_time / 60);
         }
         if long_break_time == 0 {
-            alarm_sound("./assets/alarm_sound.mp3")
+            alarm_sound("./assets/alarm_sound.mp3");
         }
     }
 }
+
 
 fn alarm_sound(file_path: &str) {
     let (_stream, stream_handle) =
@@ -78,4 +84,12 @@ fn alarm_sound(file_path: &str) {
     let sink = Sink::try_new(&stream_handle).expect("Failed to create audio sink");
     sink.append(source);
     sink.sleep_until_end();
+}
+
+pub fn notify_user(message: &str) {
+    Notification::new()
+        .summary("Pomodoro Timer")
+        .body(message)
+        .show()
+        .unwrap();
 }

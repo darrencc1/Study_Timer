@@ -34,9 +34,11 @@ fn main() {
         no_sessions -= 1;
         sessions_total += 1;
         if no_sessions > 0 {
+            alarm::notify_user("Times up! Short break starts now!");
             alarm::break_alarm(short_break_length);
         }
-        if sessions_total % no_ses_long == 0 {
+        if sessions_total % no_ses_long == 0 && no_sessions > 0 {
+            alarm::notify_user("It's Time for a long break! Stand up and do something active!");
             alarm::long_break_alarm(long_break_length);
         }
     }
