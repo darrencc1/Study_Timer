@@ -30,29 +30,36 @@ ex. thread::spawn (creates new thread.)
 ex2 use: In my Study_Timer program I can use this to hadler user input in a seperate thread, to the timer logiv can continue uninterrupted. 
  */
 use std::time::Duration;
-pub fn main()
-{
-
-}
-fn interrupt()
+pub fn interrupt()
 {
     loop
     {
         let mut interrupt = String::new();
         println!("Enter command ('p' to pause or resume timer, 'i' to stop/interrupt timer): ");
-        io::stdout().flush().unwrap();
-
-        if io::stdin().read_line(&mut interrupt).is_ok()
+        std::io::stdin().read_line(&mut command).unwrap();
+        match interrupt.trim().to_lowercase().as_str()
         {
-            let interrupt = interrupt.trim().to_lowercase();
-            match input.as_str()
+            "p" =>
             {
-                "p" => {
-                    let mut pause = pause_flag.lock().unwrap();
-                    *paused = !*paused;
-                    println!("Timer {}.")
+                let mut paused = pause_flag.lock.unwrap();
+                *paused = !*paused;
+                if *paused
+                {
+                    println!("The Timer is Paused");
+                }
+                else
+                {
+                    println!("Resumed Timer");
                 }
             }
+            "i" =>
+            {
+                interrupt_flag.store(true, Ordering::SeqCst);
+                println!("Stopping Timer");
+                break;
+            }
+            _ => println!("Invalid command. Use 'p' to pause/play or 'i' to stop timer."),
+
         }
     }  
 }
